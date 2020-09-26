@@ -1,10 +1,23 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div id="app">
+    <h-chat/>
+    <m-chat/>
   </div>
-  <router-view/>
 </template>
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+import hChat from "./components/HChat.vue";
+import mChat from "./components/MChat.vue";
+
+@Options({
+  name:"app",
+  components:{
+    hChat,
+    mChat
+  }
+})
+export default class App extends Vue {}
+</script>
 
 <style>
 #app {
