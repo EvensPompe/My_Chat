@@ -1,15 +1,69 @@
 <template>
   <div id="hChat">
-    <h1>My_Chat</h1>
+    <menu-chat @widthchange="widthsended"/>
+    <div class="title" :style="titleChange ? {width:'70%'} : {width:'90%'}">
+      <h1>My_Chat</h1>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
+import menuChat from './MenuChat.vue';
 @Options({
   name: "HChat",
+  components:{
+    menuChat
+  }
 })
-export default class HChat extends Vue {}
+export default class HChat extends Vue {
+  titleChange = false;
+  public widthsended(bool: boolean): void{
+    this.titleChange = bool;
+    this.$emit('widthsend',bool);
+  }
+}
 </script>
 <style scoped>
+#hChat{
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  background: black;
+  color: white;
+}
 
+.title{
+  width: 70%;
+  height: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.title h1{
+  font-size: 60px;
+}
+
+@media screen and (min-width: 1281px) {
+  
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+  
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  
+}
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  
+}
 </style>

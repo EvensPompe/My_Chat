@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div id="home">
     <h1>Home</h1>
   </div>
 </template>
@@ -12,3 +12,11 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class Home extends Vue {}
 </script>
+<style scoped>
+#home{
+  width: 90%;
+  height: 100vh;
+  background: black;
+  color: white;
+}
+</style>

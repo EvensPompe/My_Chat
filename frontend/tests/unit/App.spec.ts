@@ -1,4 +1,4 @@
-import { shallowMount,mount, VueWrapper } from '@vue/test-utils';
+import { shallowMount, mount, RouterLinkStub } from '@vue/test-utils';
 import App from "@/App.vue";
 
 describe('Home.vue', () => {
