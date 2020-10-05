@@ -5,15 +5,16 @@
     </div>
 </template>
 <script lang="ts">
-import { Vue, Options } from 'vue-class-component';
+import { ref } from 'vue';
 
-@Options({
+export default {
     name:"AsideMenu",
-    props:["widthchanged"],
-})
-
-export default class AsideMenu extends Vue{
-
+    props:{
+        widthchanged:{
+            type: Boolean,
+            required:true
+        }
+    }
 }
 
 </script>

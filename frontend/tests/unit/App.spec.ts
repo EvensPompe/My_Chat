@@ -1,7 +1,7 @@
-import { shallowMount, mount, RouterLinkStub } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import App from "@/App.vue";
 
-describe('Home.vue', () => {
+describe('App.vue', () => {
   it('should go to "/" route', () => {
     const $route = {
       path:"/"
@@ -20,11 +20,11 @@ describe('Home.vue', () => {
 
   it("should render h-chat component",()=>{
     const wrapper = shallowMount(App);
-    expect(wrapper.find('h-chat').exists()).toBe(true);
+    expect(wrapper.findComponent({name:'h-chat'}).exists()).toBe(true);
   })
 
   it("should render m-chat component",()=>{
     const wrapper = shallowMount(App);
-    expect(wrapper.find('m-chat').exists()).toBe(true);
+    expect(wrapper.findComponent({name:'m-chat'}).exists()).toBe(true);
   })
 })

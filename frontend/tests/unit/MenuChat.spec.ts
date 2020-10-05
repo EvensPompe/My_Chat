@@ -1,4 +1,4 @@
-import { shallowMount,mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import MenuChat from '@/components/MenuChat.vue';
 
 describe('MenuChat.vue', () => {

@@ -1,26 +1,26 @@
 <template>
   <div id="app">
-    <h-chat @widthsend="widthSended"/>
+    <h-chat @widthsend="widthsended"/>
     <m-chat :widthsend="widthValue"/>
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { ref } from 'vue';
 import hChat from "./components/HChat.vue";
 import mChat from "./components/MChat.vue";
 
-@Options({
+export default {
   name:"app",
   components:{
     hChat,
     mChat
-  }
-})
-export default class App extends Vue {
-  widthValue = false;
-
-  public widthSended(bool: any): void{
-    this.widthValue = bool;
+  },
+  setup(){
+    const widthValue = ref(false);
+    const widthsended = (data: boolean): void =>{
+       widthValue.value = data;
+    };
+    return { widthsended, widthValue }
   }
 }
 </script>

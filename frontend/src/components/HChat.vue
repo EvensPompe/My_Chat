@@ -7,19 +7,21 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Options } from "vue-class-component";
+import { ref } from 'vue';
 import menuChat from './MenuChat.vue';
-@Options({
+
+export default {
   name: "HChat",
   components:{
     menuChat
-  }
-})
-export default class HChat extends Vue {
-  titleChange = false;
-  public widthsended(bool: boolean): void{
-    this.titleChange = bool;
-    this.$emit('widthsend',bool);
+  },
+  setup(props: any,{emit}: any){
+    const titleChange = ref(false);
+      const widthsended = (data: boolean) =>{
+        titleChange.value = data;
+        emit('widthsend',data);
+      }
+    return { widthsended, titleChange }
   }
 }
 </script>

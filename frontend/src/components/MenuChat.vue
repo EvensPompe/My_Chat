@@ -6,23 +6,25 @@
     </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
 
-@Options({
-    name:"menuChat",
-})
-export default class MenuChat extends Vue{
-    public changeWidth(e: any): void{
+export default {
+  name:'menuChat',
+  setup(props: any,{emit}: any){
+    const changeWidth = (e: any): void =>{
         if (e.path[1].firstChild.checked) {
             e.path[1].style.width = "10%";
             e.path[1].style.transition = "all 0.6s cubic-bezier(.22,-0.43,.71,1.95)";
-            this.$emit("widthchange",false);
+            
+            emit("widthchange",false);
         }else{
             e.path[1].style.width = "30%";
             e.path[1].style.transition = "all 0.6s cubic-bezier(.22,-0.43,.71,1.95)";
-            this.$emit("widthchange",true);
+            
+            emit("widthchange",true);
         }
     }
+    return { changeWidth }
+  }  
 }
 </script>
 <style scoped>

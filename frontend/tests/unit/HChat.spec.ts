@@ -1,4 +1,4 @@
-import {shallowMount} from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import Hchat from '@/components/HChat.vue';
 
 describe('HChat.vue', () => {
@@ -15,7 +15,7 @@ describe('HChat.vue', () => {
     })
 
     it('should render menu-chat component',()=>{
-        expect(wrapper.find("menu-chat").exists()).toBe(true);
+        expect(wrapper.findComponent({name:"menu-chat"}).exists()).toBe(true);
     })
 
 })

@@ -5,19 +5,20 @@
     </div>
 </template>
 <script lang="ts">
-import { Vue, Options } from 'vue-class-component';
+import { ref } from 'vue';
 import asideMenu from './AsideMenu.vue';
 
-@Options({
+export default {
     name: "MChat",
-    props: ["widthsend"],
+    props: {
+        widthsend:{
+            type:Boolean,
+            required:true
+        }
+    },
     components:{
        asideMenu
     }
-})
-
-export default class MChat extends Vue{
-   
 }
 </script>
 <style scoped>
