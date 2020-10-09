@@ -5,15 +5,23 @@
     </div>
 </template>
 <script lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import store from '../store';
 
 export default {
     name:"AsideMenu",
-    props:{
-        widthchanged:{
-            type: Boolean,
-            required:true
-        }
+    // props:{
+    //     widthchanged:{
+    //         type: Boolean,
+    //         required:true
+    //     }
+    // },
+    setup(){
+        const widthchanged = computed(()=>{
+            return store.state.widthChange
+        })
+
+        return { widthchanged }
     }
 }
 

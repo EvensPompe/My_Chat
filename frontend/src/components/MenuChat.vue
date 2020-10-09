@@ -6,7 +6,7 @@
     </div>
 </template>
 <script lang="ts">
-
+import store from '../store';
 export default {
   name:'menuChat',
   setup(props: any,{emit}: any){
@@ -14,13 +14,15 @@ export default {
         if (e.path[1].firstChild.checked) {
             e.path[1].style.width = "10%";
             e.path[1].style.transition = "all 0.6s cubic-bezier(.22,-0.43,.71,1.95)";
-            
-            emit("widthchange",false);
+
+            store.dispatch('widthChanging',false);
+            // emit("widthchange",false);
         }else{
             e.path[1].style.width = "30%";
             e.path[1].style.transition = "all 0.6s cubic-bezier(.22,-0.43,.71,1.95)";
-            
-            emit("widthchange",true);
+
+            store.dispatch('widthChanging',true);
+            // emit("widthchange",true);
         }
     }
     return { changeWidth }

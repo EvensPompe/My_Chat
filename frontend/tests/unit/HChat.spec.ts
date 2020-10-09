@@ -18,4 +18,15 @@ describe('HChat.vue', () => {
         expect(wrapper.findComponent({name:"menu-chat"}).exists()).toBe(true);
     })
 
+    it('should emit boolean widthsend to "true"', ()=>{
+        wrapper.vm.$emit('widthsend',true);
+        wrapper.vm.$nextTick();
+        expect(wrapper.emitted().widthsend[0][0]).toBeTruthy();
+    })
+
+    it('should emit boolean widthsend to "false"', ()=>{
+        wrapper.vm.$emit('widthsend',false);
+        wrapper.vm.$nextTick();
+        expect(wrapper.emitted().widthsend[0][0]).toBeFalsy();
+    })
 })

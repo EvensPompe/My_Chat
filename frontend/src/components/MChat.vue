@@ -1,6 +1,7 @@
 <template>
     <div id="mChat">
-        <aside-menu :widthchanged="widthsend"/>
+        <!-- <aside-menu :widthchanged="widthsend"/> -->
+        <aside-menu/>
         <router-view/>
     </div>
 </template>
@@ -10,12 +11,12 @@ import asideMenu from './AsideMenu.vue';
 
 export default {
     name: "MChat",
-    props: {
-        widthsend:{
-            type:Boolean,
-            required:true
-        }
-    },
+    // props: {
+    //     widthsend:{
+    //         type:Boolean,
+    //         required:true
+    //     }
+    // },
     components:{
        asideMenu
     }

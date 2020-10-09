@@ -15,9 +15,15 @@ describe('AsideMenu.vue', () => {
        expect(wrapper.attributes("id")).toBe("asideMenu");
     })
 
-    it('should props widthchanged value to true',async ()=>{
-        const widthchanged:boolean = true;
-        await wrapper.setProps({widthchanged})
-        expect(wrapper.props('widthchanged')).toBeTruthy();
-    })
+    // it('should props widthchanged value to true',async ()=>{
+    //     const widthchanged:boolean = true;
+    //     await wrapper.setProps({widthchanged})
+    //     expect(wrapper.props('widthchanged')).toBeTruthy();
+    // })
+
+    // it('should props widthchanged value to false',async ()=>{
+    //     const widthchanged:boolean = false;
+    //     await wrapper.setProps({widthchanged})
+    //     expect(wrapper.props('widthchanged')).toBeFalsy();
+    // })
 })

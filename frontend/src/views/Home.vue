@@ -1,12 +1,22 @@
 <template>
-  <div id="home">
+  <div id="home" :style="widthChange ?{ width:'70%',transition: 'all 0.6s cubic-bezier(.22,-0.43,.71,1.95)' }:
+  { width:'90%',transition: 'all 0.6s cubic-bezier(.22,-0.43,.71,1.95)' }">
     <h1>Home</h1>
   </div>
 </template>
 
 <script lang="ts">
+import { computed } from 'vue'
+import store from '../store'
 export default {
-  name:'home'
+  name:'home',
+  setup(){
+    const widthChange = computed(()=>{
+      return store.state.widthChange
+    })
+
+    return { widthChange }
+  }
 }
 </script>
 <style scoped>

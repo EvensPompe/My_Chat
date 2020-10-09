@@ -1,27 +1,33 @@
 <template>
   <div id="hChat">
-    <menu-chat @widthchange="widthsended"/>
-    <div class="title" :style="titleChange ? {width:'70%'} : {width:'90%'}">
+    <!-- <menu-chat @widthchange="widthsended"/> -->
+    <menu-chat/>
+    <div class="title" :style="titleComp ? {width:'70%'} : {width:'90%'}">
       <h1>My_Chat</h1>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { ref } from 'vue';
+import { /*ref,*/ computed } from 'vue';
 import menuChat from './MenuChat.vue';
+import store from '../store';
 
 export default {
   name: "HChat",
   components:{
     menuChat
   },
-  setup(props: any,{emit}: any){
-    const titleChange = ref(false);
-      const widthsended = (data: boolean) =>{
-        titleChange.value = data;
-        emit('widthsend',data);
-      }
-    return { widthsended, titleChange }
+  setup(/*props: any,{emit}: any*/){
+    const titleComp = computed(()=>{
+      return store.state.widthChange;
+    })
+    
+    //titleValue.value = store.state.widthChange;
+      // const widthsended = (data: boolean) =>{
+      //   titleChange.value = data;
+      //   emit('widthsend',data);
+      // }
+    return { /*widthsended,*//*titleValue,*/ titleComp }
   }
 }
 </script>
