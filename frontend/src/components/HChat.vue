@@ -3,7 +3,8 @@
     <!-- <menu-chat @widthchange="widthsended"/> -->
     <menu-chat/>
     <div class="title" :style="titleComp ? {width:'70%'} : {width:'90%'}">
-      <h1>My_Chat</h1>
+      <h1 @click="goTo">My_Chat</h1>
+      <h3>Le chat mondial éco +</h3>
     </div>
   </div>
 </template>
@@ -11,6 +12,7 @@
 import { /*ref,*/ computed } from 'vue';
 import menuChat from './MenuChat.vue';
 import store from '../store';
+import router from '../router';
 
 export default {
   name: "HChat",
@@ -22,12 +24,15 @@ export default {
       return store.state.widthChange;
     })
     
+    const goTo = () => {
+      router.push('/');
+    }
     //titleValue.value = store.state.widthChange;
       // const widthsended = (data: boolean) =>{
       //   titleChange.value = data;
       //   emit('widthsend',data);
       // }
-    return { /*widthsended,*//*titleValue,*/ titleComp }
+    return { /*widthsended,*//*titleValue,*/ titleComp, goTo }
   }
 }
 </script>
@@ -46,13 +51,14 @@ export default {
   width: 70%;
   height: inherit;
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
   align-items: center;
 }
 
 .title h1{
   font-size: 60px;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 1281px) {

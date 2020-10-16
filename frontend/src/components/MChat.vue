@@ -6,7 +6,7 @@
     </div>
 </template>
 <script lang="ts">
-import { ref } from 'vue';
+// import { ref } from 'vue';
 import asideMenu from './AsideMenu.vue';
 
 export default {
@@ -25,7 +25,7 @@ export default {
 <style scoped>
 #mChat{
     width: 100%;
-    height: inherit;
+    height: 475px;
     display: flex;
     flex-flow: row nowrap;
     background: black;
