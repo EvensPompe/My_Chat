@@ -1,9 +1,11 @@
 import { Router } from 'express';
-import { getHome } from '../controllers/userController';
+import { newUser, modifUser, connectUser } from '../controllers/userController';
 
 
 const userRouter = Router();
 
-userRouter.get("/", getHome)
+userRouter.post("/new", newUser);
+userRouter.post("/connexion", connectUser);
+userRouter.put("/:id/modify",modifUser)
 
-export { userRouter };
+export default userRouter;
