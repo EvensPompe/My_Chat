@@ -1,13 +1,13 @@
 <template>
     <div id="mChat">
         <!-- <aside-menu :widthchanged="widthsend"/> -->
-        <aside-menu/>
+        <!-- <aside-menu/> -->
         <router-view/>
     </div>
 </template>
 <script lang="ts">
 // import { ref } from 'vue';
-import asideMenu from './AsideMenu.vue';
+// import asideMenu from './AsideMenu.vue';
 
 export default {
     name: "MChat",
@@ -17,9 +17,9 @@ export default {
     //         required:true
     //     }
     // },
-    components:{
-       asideMenu
-    }
+    // components:{
+    //    asideMenu
+    // }
 }
 </script>
 <style scoped>

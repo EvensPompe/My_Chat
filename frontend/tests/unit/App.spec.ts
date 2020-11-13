@@ -27,4 +27,9 @@ describe('App.vue', () => {
     const wrapper = shallowMount(App);
     expect(wrapper.findComponent({name:'m-chat'}).exists()).toBe(true);
   })
+
+  it("should render aside-menu component",()=>{
+    const wrapper = shallowMount(App);
+    expect(wrapper.findComponent({name:'aside-menu'}).exists()).toBe(true);
+  })
 })

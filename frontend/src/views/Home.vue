@@ -1,6 +1,5 @@
 <template>
-  <div id="home" :style="widthChange ?{ width:'70%',transition: 'all 0.6s cubic-bezier(.22,-0.43,.71,1.95)' }:
-  { width:'90%',transition: 'all 0.6s cubic-bezier(.22,-0.43,.71,1.95)' }">
+  <div id="home">
     <section>
       <div>
         <p>Rejoingnez le chat mondial le plus "économique" du web !</p>
@@ -41,7 +40,7 @@ export default {
 </script>
 <style scoped>
 #home{
-  width: 90%;
+  width: 100%;
   height: 100%;
   background: black;
   color: white;

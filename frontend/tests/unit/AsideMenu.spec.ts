@@ -15,6 +15,10 @@ describe('AsideMenu.vue', () => {
        expect(wrapper.attributes("id")).toBe("asideMenu");
     })
 
+    it("should render menu-chat component",()=>{
+        expect(wrapper.findComponent({name:'menu-chat'}).exists()).toBeTruthy()
+    })
+
     // it('should props widthchanged value to true',async ()=>{
     //     const widthchanged:boolean = true;
     //     await wrapper.setProps({widthchanged})

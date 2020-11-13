@@ -12,14 +12,14 @@ export default {
   setup(props: any,{emit}: any){
     const changeWidth = (e: any): void =>{
         if (e.path[1].firstChild.checked) {
-            e.path[1].style.width = "10%";
-            e.path[1].style.transition = "all 0.6s cubic-bezier(.22,-0.43,.71,1.95)";
+            // e.path[1].style.width = "10%";
+            // e.path[1].style.transition = "all 0.6s cubic-bezier(.22,-0.43,.71,1.95)";
 
             store.dispatch('widthChanging',false);
             // emit("widthchange",false);
         }else{
-            e.path[1].style.width = "30%";
-            e.path[1].style.transition = "all 0.6s cubic-bezier(.22,-0.43,.71,1.95)";
+            // e.path[1].style.width = "30%";
+            // e.path[1].style.transition = "all 0.6s cubic-bezier(.22,-0.43,.71,1.95)";
 
             store.dispatch('widthChanging',true);
             // emit("widthchange",true);
@@ -37,8 +37,8 @@ export default {
 
 @media screen and (min-width: 1281px) {
   #menuChat{
-    width: 10%;
-    height: 100%;
+    width: 100%;
+    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,8 +97,8 @@ export default {
 
 @media screen and (min-width: 1025px) and (max-width: 1280px) {
   #menuChat{
-    width: 10%;
-    height: 100%;
+    width: 100%;
+    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -156,8 +156,8 @@ export default {
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     #menuChat{
-    width: 10%;
-    height: 100%;
+    width: 100%;
+    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -215,8 +215,8 @@ export default {
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
     #menuChat{
-    width: 10%;
-    height: 100%;
+    width: 100%;
+    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -274,8 +274,8 @@ export default {
 
 @media screen and (min-width: 320px) and (max-width: 480px) {
     #menuChat{
-    width: 10%;
-    height: 100%;
+    width: 100%;
+    height: 10%;
     display: flex;
     justify-content: center;
     align-items: center;

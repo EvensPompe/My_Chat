@@ -1,8 +1,9 @@
 <template>
   <div id="hChat">
     <!-- <menu-chat @widthchange="widthsended"/> -->
-    <menu-chat/>
-    <div class="title" :style="titleComp ? {width:'70%'} : {width:'90%'}">
+    <!-- <menu-chat/> -->
+    <!-- :style="titleComp ? {width:'70%'} : {width:'90%'}" -->
+    <div class="title">
       <h1 @click="goTo">My_Chat</h1>
       <h3>Le chat mondial éco +</h3>
     </div>
@@ -10,15 +11,15 @@
 </template>
 <script lang="ts">
 import { /*ref,*/ computed } from 'vue';
-import menuChat from './MenuChat.vue';
+// import menuChat from './MenuChat.vue';
 import store from '../store';
 import router from '../router';
 
 export default {
   name: "HChat",
-  components:{
-    menuChat
-  },
+  // components:{
+  //   menuChat
+  // },
   setup(/*props: any,{emit}: any*/){
     const titleComp = computed(()=>{
       return store.state.widthChange;
@@ -48,7 +49,7 @@ export default {
 }
 
 .title{
-  width: 70%;
+  width: 100%;
   height: inherit;
   display: flex;
   flex-flow: column nowrap;
