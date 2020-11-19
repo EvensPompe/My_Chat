@@ -1,8 +1,9 @@
 import faker from 'faker';
 import request from 'supertest';
-import app from "../src/server";
-import { User } from "../src/models/User";
+import app from "../server";
+import { User } from "../models/User";
 import { config } from 'dotenv';
+
 config();
 
 let pass = faker.internet.password();
@@ -10,7 +11,7 @@ let userEmail = faker.internet.email();
 
 describe('Post /user', () => {
     let user:any;
-
+    
     beforeEach(async ()=>{
         user = await User.findAll({
             limit:1,
@@ -36,6 +37,7 @@ describe('Post /user', () => {
         .expect("Content-Type", /json/)
         .expect(201)
         .expect({message:"Le compte a été créé avec succès !"})
+        
     })
 
     it('should not register a user with password error',async ()=>{
@@ -66,6 +68,7 @@ describe('Post /user', () => {
          .set('Accept','application/json')
          .expect("Content-Type", /json/)
          .expect({error:"Le compte existe déjà !"})
+
      })
 
     it('should connect the user',async ()=>{

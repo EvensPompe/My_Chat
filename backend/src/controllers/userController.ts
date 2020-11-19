@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import bcrypt from "bcrypt";
 import { TokenGenerator } from "ts-token-generator";
 import { User } from "../models/User";
+import Mail from '../middlewares/Mail';
+import jwt from 'jsonwebtoken';
 
 export async function newUser(req: Request, res: Response) {
     const userFound = await User.findOne({
@@ -18,6 +20,26 @@ export async function newUser(req: Request, res: Response) {
              user['token'] = new TokenGenerator().generate();
              user['country'] = req.body['country'];
              await User.create(user);
+
+            //  let userForJwt = {
+            //      name:req.body['name']
+            //  }
+
+            //  let tokenjwt = jwt.sign()
+
+            //  let mail = new Mail();
+            //  let subject:string = "Demande d'inscription à My_Chat";
+            //  let message:string = `Hello ${user['name']},
+            //  votre nouveau compte a été créé avec succès !
+            //  Pour confirmer l'inscription, cliquez sur le lien ci-dessous :
+            //  http://localhost:${process.env.PORT}/user/confirmation?&jwt=${tokenjwt}
+            //  Attention: Vous avez dix minutes pour confirmer votre compte. Si vous n'êtes pas à l'origine, ignorer le message !
+            //  À très bientôt !
+  
+  
+            //  Evens POMPE de My_Chat.`;
+            //  mail.sendMail(req.body['email'],subject,message)
+
              res.status(201).json({message:"Le compte a été créé avec succès !"})
          }else{
              res.json({error:"Le mot de passe est incorrecte !"})
