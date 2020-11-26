@@ -7,15 +7,27 @@ import * as nodemailer from 'nodemailer';
 export default class Mail{
     private _transporter: nodemailer.Transporter;
     constructor() {
-      this._transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false,
-        auth: {
-          user: "sadye.goodwin13@ethereal.email",
-          pass: "taEU1326Pa49Ux41G8"
-        }
-      });
+      if(process.env.NODE_ENV === "dev" || process.env.NODE_ENV === "test"){
+        this._transporter = nodemailer.createTransport({
+          host: 'smtp.ethereal.email',
+          port: 587,
+          secure: false,
+          auth: {
+            user: "sadye.goodwin13@ethereal.email",
+            pass: "taEU1326Pa49Ux41G8"
+          }
+        });
+      }else{
+        this._transporter = nodemailer.createTransport({
+          host: 'smtp.gmail.com',
+          port: 465,
+          secure: true,
+          auth: {
+            user: process.env.MAIL,
+            pass: process.env.PASS
+          }
+        });
+      }
     }
     sendMail(to: string, subject: string, content: string) {
       let options = {
@@ -30,7 +42,7 @@ export default class Mail{
         if (error) {
           console.log(error);
         } else {
-          console.log('Server is ready to take our messages');
+          // console.log('Server is ready to take our messages');
         }
       });
   

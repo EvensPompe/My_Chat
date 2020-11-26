@@ -2,9 +2,17 @@ import { Sequelize } from "sequelize";
 import { config } from 'dotenv';
 
 config();
-let dbName:any = process.env.DB_NAME,
+let dbName:any,
     dbUser:any = process.env.DB_USER,
     dbPass:any = process.env.DB_PASSWORD;
+
+switch(process.env.NODE_ENV){
+    case "dev": dbName = process.env.DB_NAME_DEV
+    break;
+    case "test": dbName = process.env.DB_NAME_TEST
+    break;
+    default : dbName = process.env.DB_NAME;
+}
 
 export const sequelize = new Sequelize(dbName,dbUser,dbPass,{
     host:"localhost",

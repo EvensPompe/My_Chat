@@ -21,24 +21,25 @@ export async function newUser(req: Request, res: Response) {
              user['country'] = req.body['country'];
              await User.create(user);
 
-            //  let userForJwt = {
-            //      name:req.body['name']
-            //  }
+             let userForJwt = {
+                 name:req.body['name'],
+                 email:req.body["email"],
+                 
+             }
 
-            //  let tokenjwt = jwt.sign()
-
-            //  let mail = new Mail();
-            //  let subject:string = "Demande d'inscription à My_Chat";
-            //  let message:string = `Hello ${user['name']},
-            //  votre nouveau compte a été créé avec succès !
-            //  Pour confirmer l'inscription, cliquez sur le lien ci-dessous :
-            //  http://localhost:${process.env.PORT}/user/confirmation?&jwt=${tokenjwt}
-            //  Attention: Vous avez dix minutes pour confirmer votre compte. Si vous n'êtes pas à l'origine, ignorer le message !
-            //  À très bientôt !
+             let tokenjwt = jwt.sign(userForJwt,`${process.env.SECRET_KEY}`);
+             let mail = new Mail();
+             let subject:string = "Demande d'inscription à My_Chat";
+             let message:string = `Hello ${user['name']},
+             votre nouveau compte a été créé avec succès !
+             Pour confirmer l'inscription, cliquez sur le lien ci-dessous :
+             http://localhost:${process.env.PORT}/user/confirmation?&jwt=${tokenjwt}
+             Attention: Vous avez dix minutes pour confirmer votre compte. Si vous n'êtes pas à l'origine, ignorer le message !
+             À très bientôt !
   
   
-            //  Evens POMPE de My_Chat.`;
-            //  mail.sendMail(req.body['email'],subject,message)
+             Evens POMPE de My_Chat.`;
+             mail.sendMail(req.body['email'],subject,message)
 
              res.status(201).json({message:"Le compte a été créé avec succès !"})
          }else{

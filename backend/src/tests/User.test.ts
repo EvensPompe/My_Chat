@@ -3,12 +3,14 @@ import request from 'supertest';
 import app from "../server";
 import { User } from "../models/User";
 import { config } from 'dotenv';
+import jwt from 'jsonwebtoken';
 
 config();
 
 let pass = faker.internet.password();
 let userEmail = faker.internet.email();
 
+jest.mock('jsonwebtoken')
 describe('Post /user', () => {
     let user:any;
     
@@ -21,6 +23,7 @@ describe('Post /user', () => {
 
     afterEach(async ()=>{
         user = null;
+        jest.clearAllMocks();
     })
 
     it('should register a new user',async ()=>{
@@ -37,7 +40,9 @@ describe('Post /user', () => {
         .expect("Content-Type", /json/)
         .expect(201)
         .expect({message:"Le compte a été créé avec succès !"})
-        
+        .then(res=>{
+            expect(jwt.sign).toHaveBeenCalled();
+        })
     })
 
     it('should not register a user with password error',async ()=>{
@@ -53,6 +58,9 @@ describe('Post /user', () => {
         .set('Accept','application/json')
         .expect("Content-Type", /json/)
         .expect({error:"Le mot de passe est incorrecte !"})
+        .then(res=>{
+            expect(jwt.sign).not.toHaveBeenCalled();
+        })
     })
 
     it('should not register a existant user',async ()=>{
@@ -127,7 +135,7 @@ describe('Put /user', () => {
 
     it('should modify name of an user',async ()=>{
         await request(app)
-         .put(`/user/${4}/modify`)
+         .put(`/user/${user[0].id}/modify`)
          .send({
             name:faker.name.findName()
          })
@@ -139,7 +147,7 @@ describe('Put /user', () => {
 
     it('should modify name and email of an user',async ()=>{
         await request(app)
-         .put(`/user/${4}/modify`)
+         .put(`/user/${user[0].id}/modify`)
          .send({
             name:faker.name.findName(),
             email:faker.internet.email()
