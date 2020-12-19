@@ -1,8 +1,9 @@
 import Mailgen from 'mailgen';
 import * as nodemailer from 'nodemailer';
-// import { config } from 'dotenv';
+import { config } from 'dotenv';
+import Message from "../interfaces/Message"
 
-// config();
+config();
 
 export default class Mail{
     private _transporter: nodemailer.Transporter;
@@ -29,12 +30,35 @@ export default class Mail{
         });
       }
     }
-    sendMail(to: string, subject: string, content: string) {
+    sendMail(to: string, subject: string, message: Message) {
+      var mailGenerator = new Mailgen({
+        theme:'default',
+        product:{
+          name:"My_Chat",
+          link:`http://localhost:${process.env.PORT}/`
+        }
+      });
+      let mail = {
+        body:{
+          name:message.user,
+          intro:message.title,
+          action:{
+            instructions:message.content,
+            button:{
+              color: '#22BC66',
+              text:"Confirmer votre inscription",
+              link:message.link
+            }
+          },
+          outro:message.end
+        }
+      }
+      var mailGenerated = mailGenerator.generate(mail);
       let options = {
         from: process.env.MAIL,
         to: to,
         subject: subject,
-        text: content
+        html: mailGenerated
       }
   
       // verify connection configuration
