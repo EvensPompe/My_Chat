@@ -25,12 +25,15 @@ export async function newUser(req: Request, res: Response) {
              let userForJwt = {
                  name:req.body['name'],
                  email:req.body["email"],
-                 
+                 isConnected: false,
+                 token:user['token'],
+                 country:user['country']
              }
 
-             let tokenjwt = jwt.sign(userForJwt,`${process.env.SECRET_KEY}`);
+             let tokenjwt = jwt.sign(userForJwt,`${process.env.S_KEY}`,{ expiresIn: 600 });
              let mail = new Mail();
              let subject:string = "Demande d'inscription à My_Chat";
+
              let message:Message = {
                  title:"Bienvenue à My_Chat !",
                  content:`Hello ${user['name']},
@@ -42,7 +45,6 @@ export async function newUser(req: Request, res: Response) {
                 À très bientôt !`
              }
   
-            //  Evens POMPE de My_Chat.`;
              mail.sendMail(req.body['email'],subject,message)
 
              res.status(201).json({message:"Le compte a été créé avec succès !"})
@@ -98,4 +100,40 @@ export const connectUser = async (req:Request,res:Response) => {
     }else{
         res.status(400).json({error:"Le nom d'utilisateur ou le mot de passe est invalide !"})
     }
+}
+
+export const confirmUser = async (req:Request,res:Response) =>{
+    let jwtToken = req.query.jwt;
+    jwt.verify(`${jwtToken}`,`${process.env.S_KEY}`,(err,jwtDecoded:any)=>{
+        if (err){
+            res.status(400).json({error:"Le lien a expiré ou est invalide !"})
+        }else{
+            if(jwtDecoded["isConnected"]){
+                res.status(400)
+            }else{
+                let option = {
+                    where:{
+                        token:jwtDecoded["token"]
+                    }
+                };
+                User.findOne({
+                    where:{
+                        token:jwtDecoded["token"],
+                        name:jwtDecoded["name"],
+                        email:jwtDecoded["email"]
+                    },
+                    attributes:{
+                        exclude:['password']
+                    }
+                }).then(user=>{
+                    if((user?.token === jwtDecoded["token"])&&(user?.email === jwtDecoded["email"])){
+                        User.update({isConnected:true,token:new TokenGenerator().generate()},option);
+                        res.status(200).json({message:"Votre compte a été confirmé avec succès !"})
+                    }else{
+                        res.status(400).json({error:"Une erreur est survenue"})
+                    }
+                }) 
+            }
+        }
+    })
 }

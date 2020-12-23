@@ -4,26 +4,28 @@ import app from "../server";
 import { User } from "../models/User";
 import { config } from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { sign } from 'crypto';
 
 config();
 
 let pass = faker.internet.password();
 let userEmail = faker.internet.email();
 
-jest.mock('jsonwebtoken')
 describe('Post /user', () => {
     let user:any;
-    
+    let signSpy:jest.SpyInstance;
     beforeEach(async ()=>{
         user = await User.findAll({
             limit:1,
             order:[["createdAt","DESC"]]
         });
+        signSpy = await jest.spyOn(jwt,"sign")
     })
 
     afterEach(async ()=>{
         user = null;
-        jest.clearAllMocks();
+        // jest.clearAllMocks();
+        signSpy.mockRestore()
     })
 
     it('should register a new user',async ()=>{
@@ -41,7 +43,7 @@ describe('Post /user', () => {
         .expect(201)
         .expect({message:"Le compte a été créé avec succès !"})
         .then(res=>{
-            expect(jwt.sign).toHaveBeenCalled();
+            expect(signSpy).toHaveBeenCalled();
         })
     })
 
@@ -59,7 +61,7 @@ describe('Post /user', () => {
         .expect("Content-Type", /json/)
         .expect({error:"Le mot de passe est incorrecte !"})
         .then(res=>{
-            expect(jwt.sign).not.toHaveBeenCalled();
+            expect(signSpy).not.toHaveBeenCalled();
         })
     })
 
@@ -230,11 +232,50 @@ describe('Put /user', () => {
     })
 })
 
-describe('Get /', () => {    
-    it('should get /',async ()=>{
+describe('Get /user', () => { 
+    let user: any;
+    beforeEach(async ()=>{
+        user = await User.findAll({
+            limit:1,
+            attributes:{
+                exclude:['password']
+            },
+            order:[["createdAt","DESC"]]
+        });
+        jest.resetAllMocks()
+    })
+
+    afterEach(async ()=>{
+        user = null;
+    })
+ 
+    it('should confirm the user',async ()=>{
+        let testUser: object = {
+            name:user[0].name,
+            email:user[0].email,
+            isConnected:user[0].isConnected,
+            token:user[0].token,
+            country:user[0].country
+        }
+        let testJwt = await jwt.sign(testUser,`${process.env.S_KEY}`,{ expiresIn: 600 });
         await request(app)
-        .get("/")
+        .get("/user/confirm?&jwt="+testJwt)
         .expect(200)
-        .expect("home")
+        .expect({message:"Votre compte a été confirmé avec succès !"})
+    })
+
+    it('should not confirm the user',async ()=>{
+        let testUser: object = {
+            name:user[0].name,
+            email:user[0].email,
+            isConnected:user[0].isConnected,
+            token:user[0].token,
+            country:user[0].country
+        }
+        let testJwt = await jwt.sign(testUser,"${process.env.S_KEY}",{ expiresIn: 600 });
+        await request(app)
+        .get("/user/confirm?&jwt="+testJwt)
+        .expect(400)
+        .expect({error:"Le lien a expiré ou est invalide !"})
     })
 })

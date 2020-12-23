@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { newUser, modifUser, connectUser } from '../controllers/userController';
+import { newUser, modifUser, connectUser, confirmUser } from '../controllers/userController';
 
 
 const userRouter = Router();
@@ -7,5 +7,6 @@ const userRouter = Router();
 userRouter.post("/new", newUser);
 userRouter.post("/connexion", connectUser);
 userRouter.put("/:id/modify",modifUser);
+userRouter.get('/confirm',confirmUser)
 
 export default userRouter;
