@@ -7,6 +7,7 @@ export class User extends Model{
     public email: string;
     public password: string;
     public isConnected: boolean;
+    public isAuth: boolean;
     public token: string;
     public country: string;
     public readonly createdAt!: Date;
@@ -32,6 +33,10 @@ User.init({
         allowNull:false,
     },
     isConnected:{
+        type:DataTypes.BOOLEAN,
+        allowNull:false,
+    },
+    isAuth:{
         type:DataTypes.BOOLEAN,
         allowNull:false,
     },

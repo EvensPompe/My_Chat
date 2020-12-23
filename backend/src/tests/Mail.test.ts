@@ -5,7 +5,6 @@ import Message from "../interfaces/Message";
 import Mailgen from "mailgen";
 
 let mockSendMail = jest.fn();
-let mockGenerate = jest.fn();
 jest.mock("../middlewares/Mail",()=>{
    return jest.fn().mockImplementation(()=>{
        return {sendMail:mockSendMail}

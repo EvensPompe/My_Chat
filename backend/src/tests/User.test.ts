@@ -264,7 +264,7 @@ describe('Get /user', () => {
         .expect({message:"Votre compte a été confirmé avec succès !"})
     })
 
-    it('should not confirm the user',async ()=>{
+    it('should not confirm the user with a wrong token',async ()=>{
         let testUser: object = {
             name:user[0].name,
             email:user[0].email,
@@ -277,5 +277,21 @@ describe('Get /user', () => {
         .get("/user/confirm?&jwt="+testJwt)
         .expect(400)
         .expect({error:"Le lien a expiré ou est invalide !"})
+    })
+
+    it('should not confirm the user wich is already connected and auth',async ()=>{
+        let testUser: object = {
+            name:user[0].name,
+            email:user[0].email,
+            isConnected:true,
+            isAuth:true,
+            token:user[0].token,
+            country:user[0].country
+        }
+        let testJwt = await jwt.sign(testUser,`${process.env.S_KEY}`,{ expiresIn: 600 });
+        await request(app)
+        .get("/user/confirm?&jwt="+testJwt)
+        .expect(400)
+        .expect({error:"L'utilisateur a déjà confirmé !"})
     })
 })

@@ -18,6 +18,7 @@ export async function newUser(req: Request, res: Response) {
              user['email'] = req.body['email'];
              user['password'] = bcrypt.hashSync(req.body['password'],10);
              user['isConnected'] = false;
+             user['isAuth'] = false;
              user['token'] = new TokenGenerator().generate();
              user['country'] = req.body['country'];
              await User.create(user);
@@ -26,6 +27,7 @@ export async function newUser(req: Request, res: Response) {
                  name:req.body['name'],
                  email:req.body["email"],
                  isConnected: false,
+                 isAuth:false,
                  token:user['token'],
                  country:user['country']
              }
@@ -108,8 +110,8 @@ export const confirmUser = async (req:Request,res:Response) =>{
         if (err){
             res.status(400).json({error:"Le lien a expiré ou est invalide !"})
         }else{
-            if(jwtDecoded["isConnected"]){
-                res.status(400)
+            if(jwtDecoded["isConnected"] && jwtDecoded['isAuth']){
+                res.status(400).json({error:"L'utilisateur a déjà confirmé !"})
             }else{
                 let option = {
                     where:{
@@ -127,7 +129,7 @@ export const confirmUser = async (req:Request,res:Response) =>{
                     }
                 }).then(user=>{
                     if((user?.token === jwtDecoded["token"])&&(user?.email === jwtDecoded["email"])){
-                        User.update({isConnected:true,token:new TokenGenerator().generate()},option);
+                        User.update({isConnected:true,isAuth:true,token:new TokenGenerator().generate()},option);
                         res.status(200).json({message:"Votre compte a été confirmé avec succès !"})
                     }else{
                         res.status(400).json({error:"Une erreur est survenue"})
