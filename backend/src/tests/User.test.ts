@@ -4,7 +4,6 @@ import app from "../server";
 import { User } from "../models/User";
 import { config } from 'dotenv';
 import jwt from 'jsonwebtoken';
-import { sign } from 'crypto';
 
 config();
 
@@ -91,7 +90,11 @@ describe('Post /user', () => {
          .set('Accept','application/json')
          .expect("Content-Type", /json/)
          .expect(200)
-         .expect({message:"Vous êtes connecté !"})
+         .then(res=>{
+             expect(res["body"].hasOwnProperty("message")).toBeTruthy();
+             expect(res["body"]["message"]).toEqual("Vous êtes connecté !");
+             expect(res["body"].hasOwnProperty("token")).toBeTruthy();
+         })
     })
 
     it('should not connect the user with wrong password',async ()=>{
@@ -254,14 +257,20 @@ describe('Get /user', () => {
             name:user[0].name,
             email:user[0].email,
             isConnected:user[0].isConnected,
+            isAuth:user[0].isAuth,
             token:user[0].token,
             country:user[0].country
-        }
+        };
+
         let testJwt = await jwt.sign(testUser,`${process.env.S_KEY}`,{ expiresIn: 600 });
         await request(app)
         .get("/user/confirm?&jwt="+testJwt)
         .expect(200)
-        .expect({message:"Votre compte a été confirmé avec succès !"})
+        .then((res)=>{
+            expect(res["body"].hasOwnProperty("message")).toBeTruthy()
+            expect(res["body"]["message"]).toEqual("Votre compte a été confirmé avec succès !")
+            expect(res["body"].hasOwnProperty("token")).toBeTruthy()
+        })
     })
 
     it('should not confirm the user with a wrong token',async ()=>{
@@ -269,6 +278,7 @@ describe('Get /user', () => {
             name:user[0].name,
             email:user[0].email,
             isConnected:user[0].isConnected,
+            isAuth:user[0].isAuth,
             token:user[0].token,
             country:user[0].country
         }

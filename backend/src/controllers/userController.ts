@@ -5,6 +5,7 @@ import { User } from "../models/User";
 import Mail from '../middlewares/Mail';
 import jwt from 'jsonwebtoken';
 import Message from "../interfaces/Message";
+import UserForJwt from "../interfaces/UserForJwt";
 
 export async function newUser(req: Request, res: Response) {
     const userFound = await User.findOne({
@@ -23,7 +24,7 @@ export async function newUser(req: Request, res: Response) {
              user['country'] = req.body['country'];
              await User.create(user);
 
-             let userForJwt = {
+             let userForJwt:UserForJwt = {
                  name:req.body['name'],
                  email:req.body["email"],
                  isConnected: false,
@@ -94,8 +95,17 @@ export const connectUser = async (req:Request,res:Response) => {
 
     if(user){
         if(bcrypt.compareSync(req.body['password'],user['password'])){
-            
-            res.status(200).json({message:"Vous êtes connecté !"})
+            var newToken:string = new TokenGenerator().generate();
+            let userForJwt:UserForJwt = {
+                name:`${user?.name}`,
+                email:`${user?.email}`,
+                token:newToken,
+                isAuth:true,
+                isConnected:true,
+                country:`${user?.country}`
+            };
+            let newJwt = jwt.sign(userForJwt,`${process.env.S_KEY}`);
+            res.status(200).json({message:"Vous êtes connecté !",token:newJwt})
         }else{
             res.status(400).json({error:"Le nom d'utilisateur ou le mot de passe est invalide !"})
         }
@@ -129,8 +139,18 @@ export const confirmUser = async (req:Request,res:Response) =>{
                     }
                 }).then(user=>{
                     if((user?.token === jwtDecoded["token"])&&(user?.email === jwtDecoded["email"])){
-                        User.update({isConnected:true,isAuth:true,token:new TokenGenerator().generate()},option);
-                        res.status(200).json({message:"Votre compte a été confirmé avec succès !"})
+                        var newToken:string = new TokenGenerator().generate();
+                        User.update({isConnected:true,isAuth:true,token:newToken},option);
+                        let userForJwt:UserForJwt = {
+                            name:`${user?.name}`,
+                            email:`${user?.email}`,
+                            token:newToken,
+                            isAuth:true,
+                            isConnected:true,
+                            country:`${user?.country}`
+                        };
+                        let newJwt = jwt.sign(userForJwt,`${process.env.S_KEY}`);
+                        res.status(200).json({message:"Votre compte a été confirmé avec succès !",token:newJwt})
                     }else{
                         res.status(400).json({error:"Une erreur est survenue"})
                     }
