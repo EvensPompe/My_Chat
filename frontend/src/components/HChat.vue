@@ -1,8 +1,5 @@
 <template>
   <div id="hChat">
-    <!-- <menu-chat @widthchange="widthsended"/> -->
-    <!-- <menu-chat/> -->
-    <!-- :style="titleComp ? {width:'70%'} : {width:'90%'}" -->
     <div class="title">
       <h1 @click="goTo">My_Chat</h1>
       <h3>Le chat mondial éco +</h3>
@@ -10,17 +7,13 @@
   </div>
 </template>
 <script lang="ts">
-import { /*ref,*/ computed } from 'vue';
-// import menuChat from './MenuChat.vue';
+import { computed } from 'vue';
 import store from '../store';
 import router from '../router';
 
 export default {
   name: "HChat",
-  // components:{
-  //   menuChat
-  // },
-  setup(/*props: any,{emit}: any*/){
+  setup(){
     const titleComp = computed(()=>{
       return store.state.widthChange;
     })
@@ -28,12 +21,8 @@ export default {
     const goTo = () => {
       router.push('/');
     }
-    //titleValue.value = store.state.widthChange;
-      // const widthsended = (data: boolean) =>{
-      //   titleChange.value = data;
-      //   emit('widthsend',data);
-      // }
-    return { /*widthsended,*//*titleValue,*/ titleComp, goTo }
+
+    return { titleComp, goTo }
   }
 }
 </script>

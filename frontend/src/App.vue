@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <!-- <h-chat @widthsend="widthsended"/> -->
-    <!-- <m-chat :widthsend="widthValue"/> -->
       <aside-menu/>
     <div>
       <h-chat/>
@@ -10,7 +8,7 @@
   </div>
 </template>
 <script lang="ts">
-// import { ref } from 'vue';
+
 import hChat from "./components/HChat.vue";
 import mChat from "./components/MChat.vue";
 import asideMenu from './components/AsideMenu.vue';
@@ -21,14 +19,7 @@ export default {
     hChat,
     mChat,
     asideMenu
-  },
-  // setup(){
-  //   const widthValue = ref(false);
-  //   const widthsended = (data: boolean): void =>{
-  //      widthValue.value = data;
-  //   };
-  //   return { widthsended, widthValue }
-  // }
+  }
 }
 </script>
 

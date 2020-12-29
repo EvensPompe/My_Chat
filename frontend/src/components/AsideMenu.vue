@@ -12,12 +12,6 @@ import menuChat from '../components/MenuChat.vue'
 
 export default {
     name:"AsideMenu",
-    // props:{
-    //     widthchanged:{
-    //         type: Boolean,
-    //         required:true
-    //     }
-    // },
     components:{
         menuChat
     },
