@@ -1,6 +1,6 @@
 <template>
     <div id="formRegister">
-        <form>
+        <form @submit.prevent="register">
             <section>
                 <div>
                     <div>
@@ -53,9 +53,11 @@
 </template>
 <script lang="ts">
 import { Ref, ref } from 'vue';
+import { useStore } from "vuex";
 export default {
     name:"FormRegister",
     setup(){
+        const store = useStore();
         interface RegisterData{
             name:Ref<string>,
             email:Ref<string>,
@@ -71,8 +73,11 @@ export default {
             confPassword:ref("confPassword"),
             country:ref("country")
         }
+        const register = () =>{
+            // store.commit("register",registerData);
+        }
 
-        return {registerData}
+        return {registerData, register}
     }
 }
 </script>

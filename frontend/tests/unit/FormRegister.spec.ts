@@ -1,5 +1,7 @@
 import { shallowMount } from "@vue/test-utils";
 import FormRegister from '@/components/RegisterComponents/FormRegister.vue';
+import {createRouter, createMemoryHistory } from 'vue-router';
+import routes from '@/router/routes';
 
 describe('FormRegister.vue',()=>{
     let wrapper:any;
@@ -16,22 +18,25 @@ describe('FormRegister.vue',()=>{
     })
 
     it('should submit a user',async ()=>{
+        const mockRegister = jest.fn();
         let user = {
-            name:"",
-            email:"",
-            password:"",
-            confPassword:"",
-            country:""
+            name:"UserName",
+            email:"username@gmail.com",
+            password:"testuserpass",
+            confPassword:"testuserpass",
+            country:"France"
         }
-
+        wrapper.vm.register = mockRegister;
         await wrapper.find("#userName").setValue(user.name)
         await wrapper.find("#email").setValue(user.email)
         await wrapper.find("#password").setValue(user.password)
         await wrapper.find("#confPassword").setValue(user.confPassword)
         await wrapper.find("#country").setValue(user.country)
 
-        await wrapper.find("form").trigger("submit.prevent")
+        await wrapper.find("#formRegister form section:last-child div:last-child button").trigger("submit")
+        expect(mockRegister).toHaveBeenCalled()
         await wrapper.vm.$nextTick()
+
         expect(wrapper.vm.userName).toEqual(user.name)
         expect(wrapper.vm.email).toEqual(user.email)
         expect(wrapper.vm.password).toEqual(user.password)

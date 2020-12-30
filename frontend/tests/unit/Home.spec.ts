@@ -25,7 +25,7 @@ describe('Home.vue',()=>{
 
         const goTo = jest.fn();
         wrapper.vm.goTo = goTo;
-        expect(wrapper.find('#home section div:last-child div:last-child button'))
+        
         await wrapper.find('#home section div:last-child div:last-child button').trigger('click');
         expect(goTo).toHaveBeenCalled();
         router.push('/login');
