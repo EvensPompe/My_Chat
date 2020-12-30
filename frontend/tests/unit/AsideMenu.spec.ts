@@ -18,16 +18,4 @@ describe('AsideMenu.vue', () => {
     it("should render menu-chat component",()=>{
         expect(wrapper.findComponent({name:'menu-chat'}).exists()).toBeTruthy()
     })
-
-    // it('should props widthchanged value to true',async ()=>{
-    //     const widthchanged:boolean = true;
-    //     await wrapper.setProps({widthchanged})
-    //     expect(wrapper.props('widthchanged')).toBeTruthy();
-    // })
-
-    // it('should props widthchanged value to false',async ()=>{
-    //     const widthchanged:boolean = false;
-    //     await wrapper.setProps({widthchanged})
-    //     expect(wrapper.props('widthchanged')).toBeFalsy();
-    // })
 })

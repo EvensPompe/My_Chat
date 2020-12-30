@@ -16,10 +16,6 @@ describe('HChat.vue', () => {
         expect(wrapper.attributes("id")).toEqual("hChat")
     })
 
-    // it('should render menu-chat component',()=>{
-    //     expect(wrapper.findComponent({name:"menu-chat"}).exists()).toBe(true);
-    // })
-
     it('should emit boolean widthsend to "true"', ()=>{
         wrapper.vm.$emit('widthsend',true);
         wrapper.vm.$nextTick();

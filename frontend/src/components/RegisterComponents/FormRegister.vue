@@ -7,7 +7,7 @@
                         <label for="userName">Nom utilisateur</label>
                     </div>
                     <div>
-                        <input type="text" id="userName">
+                        <input type="text" v-model="userName" id="userName">
                     </div>
                 </div>
                 <div>
@@ -15,7 +15,7 @@
                         <label for="email">Email</label>
                     </div>
                     <div>
-                        <input type="email" id="email">
+                        <input type="email" v-model="email" id="email">
                     </div>
                 </div>
             </section>
@@ -25,7 +25,7 @@
                         <label for="password">Mot de passe</label>
                     </div>
                     <div>
-                        <input type="password" id="password" required>
+                        <input type="password" v-model="password" id="password" required>
                     </div>
                 </div>
                 <div>
@@ -33,7 +33,7 @@
                         <label for="confPassword">Confirmer votre mot de passe</label>
                     </div>
                     <div>
-                        <input type="password" id="confPassword" required>
+                        <input type="password" v-model="confPassword" id="confPassword" required>
                     </div>
                 </div> 
                 <div>
@@ -41,7 +41,7 @@
                         <label for="country">Pays</label>
                     </div>
                     <div>
-                        <input type="country" id="country">
+                        <input type="country" v-model="country" id="country">
                     </div>
                 </div>  
                 <div>
@@ -52,8 +52,28 @@
     </div>
 </template>
 <script lang="ts">
+import { Ref, ref } from 'vue';
 export default {
-    name:"FormRegister"
+    name:"FormRegister",
+    setup(){
+        interface RegisterData{
+            name:Ref<string>,
+            email:Ref<string>,
+            password:Ref<string>,
+            confPassword:Ref<string>,
+            country:Ref<string>
+        }
+
+        const registerData:RegisterData = {
+            name:ref('userName'),
+            email:ref('email'),
+            password:ref("password"),
+            confPassword:ref("confPassword"),
+            country:ref("country")
+        }
+
+        return {registerData}
+    }
 }
 </script>
 <style scoped>

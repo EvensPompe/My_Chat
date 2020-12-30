@@ -13,16 +13,4 @@ describe('MChat.vue', () => {
     it("should render MChat component",()=>{
        expect(wrapper.attributes('id')).toEqual("mChat");
     })
-
-    it('should props widthsend value to false',async ()=>{
-        const widthsend:boolean = false;
-        await wrapper.setProps({widthsend})
-        expect(wrapper.props('widthsend')).toBeFalsy();
-    })
-
-    it('should props widthsend value to false',async ()=>{
-        const widthsend:boolean = false;
-        await wrapper.setProps({widthsend})
-        expect(wrapper.props('widthsend')).toBeFalsy();
-    })
 })

@@ -13,9 +13,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/user", user);
-app.get('/', (req, res) => {
-    res.status(200).send("home")
-})
+
 app.listen(port, () => {
     console.log(`Serveur sur le port ${port}`)
 })
