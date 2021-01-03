@@ -15,7 +15,7 @@ describe('App.vue', () => {
       }
     });  
 
-    expect(wrapper.vm.$route.path).toBe($route.path);
+    expect(wrapper.vm.$route).toBe($route);
   })
 
   it("should render h-chat component",()=>{

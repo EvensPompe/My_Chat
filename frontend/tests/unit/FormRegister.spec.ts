@@ -1,8 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
 import FormRegister from '@/components/RegisterComponents/FormRegister.vue';
-import {createRouter, createMemoryHistory } from 'vue-router';
-import routes from '@/router/routes';
-
 describe('FormRegister.vue',()=>{
     let wrapper:any;
     beforeEach(()=>{
@@ -25,7 +22,8 @@ describe('FormRegister.vue',()=>{
             password:"testuserpass",
             confPassword:"testuserpass",
             country:"France"
-        }
+        };
+
         wrapper.vm.register = mockRegister;
         await wrapper.find("#userName").setValue(user.name)
         await wrapper.find("#email").setValue(user.email)

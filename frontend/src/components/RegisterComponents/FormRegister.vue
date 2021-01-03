@@ -74,7 +74,7 @@ export default {
             country:ref("country")
         }
         const register = () =>{
-            // store.commit("register",registerData);
+            store.commit("register",registerData);
         }
 
         return {registerData, register}
