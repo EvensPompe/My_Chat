@@ -159,3 +159,28 @@ export const confirmUser = async (req:Request,res:Response) =>{
         }
     })
 }
+
+export const allUsers = async (req:Request,res:Response) => {
+    const users = await User.findAll({
+        attributes:{
+            exclude:['password']
+        }
+    });
+    res.status(200).json(users);
+}
+
+export const oneUser = async (req:Request,res:Response) => {
+    const user = await User.findOne({
+        where:{id:req.params.id}
+    });
+    let userForJwt:UserForJwt = {
+        name:`${user?.name}`,
+        email:`${user?.email}`,
+        token:`${user?.token}`,
+        isAuth:false,
+        isConnected:false,
+        country:`${user?.country}`
+    };
+    let token = jwt.sign(userForJwt,`${process.env.S_KEY}`,{expiresIn:60});
+    res.status(200).json({user:user,token:token});
+}

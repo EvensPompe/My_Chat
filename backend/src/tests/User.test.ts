@@ -251,6 +251,29 @@ describe('Get /user', () => {
     afterEach(async ()=>{
         user = null;
     })
+
+    it('should get all users',async ()=>{
+        await request(app)
+        .get("/user/all")
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .then((res)=>{
+            expect(res["body"].length).not.toEqual(0);
+        })
+    })
+
+    it('should get one user',async ()=>{
+        await request(app)
+        .get("/user/find/1")
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .then((res)=>{
+            expect(res["body"].hasOwnProperty('token'));
+            expect(res["body"]["token"]).toBeTruthy();
+            expect(res["body"].hasOwnProperty('user'));
+            expect(res["body"]["user"]).toBeTruthy();
+        })
+    })
  
     it('should confirm the user',async ()=>{
         let testUser: object = {

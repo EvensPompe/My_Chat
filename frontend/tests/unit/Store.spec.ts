@@ -48,8 +48,10 @@ describe('Store', () => {
         }
 
         let user: user;
+        let existingUser:user;
         let mockRegister: any;
         let store: any;
+        let postSpy:jest.SpyInstance;
         beforeEach(async () => {
             user = {
                 name: "",
@@ -59,6 +61,15 @@ describe('Store', () => {
                 country: ""
             };
 
+            existingUser = {
+                name: "userTest",
+                email: "userTest@test.com",
+                password: "passwordTest",
+                confPassword: "passwordTest",
+                country: "Testistan"
+            };
+
+            postSpy = jest.spyOn(axios, "post");
             await axios.get("https://fakerapi.it/api/v1/users?_quantity=1")
             .then(res=>{
                 user["name"] = res["data"]['data'][0].username;
@@ -101,8 +112,11 @@ describe('Store', () => {
             })
         })
 
+        afterEach(()=>{
+            postSpy.mockClear();
+        })
+
         it('should call commit "register" with a user and call post axios request and return a message', async () => {
-            let postSpy = jest.spyOn(axios, "post");
             await store.dispatch('register', user);
             expect(mockRegister).toHaveBeenCalled();
             expect(postSpy).toHaveBeenCalledWith('http://localhost:3000/user/new', user);
@@ -110,12 +124,19 @@ describe('Store', () => {
         })
 
         it('should call commit "register" with a user with wrong password and call post axios request and return a error', async () => {
-            let postSpy = jest.spyOn(axios, "post");
-            user["password"] = "dfghhhhhhh"
+            user["password"] = "dfghhhhhhh";
             await store.dispatch('register', user);
             expect(mockRegister).toHaveBeenCalled();
             expect(postSpy).toHaveBeenCalledWith('http://localhost:3000/user/new', user);
             expect(store.state.message).toBe("Le mot de passe est incorrecte !");
+        })
+
+        it('should call commit "register" with an already existing user and call post axios request and return a error',async ()=>{
+            await store.dispatch('register', existingUser);
+            await store.dispatch('register', existingUser);
+            expect(mockRegister).toHaveBeenCalled();
+            expect(postSpy).toHaveBeenCalled();
+            expect(store.state.message).toBe("Le compte existe déjà !");
         })
     })
 })
