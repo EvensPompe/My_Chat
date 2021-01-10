@@ -274,6 +274,19 @@ describe('Get /user', () => {
             expect(res["body"]["user"]).toBeTruthy();
         })
     })
+
+    it('should get the lastest user',async ()=>{
+        await request(app)
+        .get("/user/last")
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .then((res)=>{
+            expect(res["body"].hasOwnProperty('token')).toBeTruthy();
+            expect(res["body"].hasOwnProperty('user')).toBeTruthy();
+            expect(res["body"]["token"]).toBeTruthy();
+            expect(res["body"]["user"]).toBeTruthy();
+        })
+    })
  
     it('should confirm the user',async ()=>{
         let testUser: object = {

@@ -182,5 +182,25 @@ export const oneUser = async (req:Request,res:Response) => {
         country:`${user?.country}`
     };
     let token = jwt.sign(userForJwt,`${process.env.S_KEY}`,{expiresIn:60});
-    res.status(200).json({user:user,token:token});
+    res.status(200).json({user:userForJwt,token:token});
+}
+
+export const lastUser = async (req:Request,res:Response) => {
+    const user = await User.findAll({
+        limit:1,
+        order:[["createdAt","DESC"]],
+        attributes:{
+            exclude:['password']
+        }
+    });
+    let userForJwt:UserForJwt = {
+        name:`${user[0]?.name}`,
+        email:`${user[0]?.email}`,
+        token:`${user[0]?.token}`,
+        isAuth:false,
+        isConnected:false,
+        country:`${user[0]?.country}`
+    };
+    let token = jwt.sign(userForJwt,`${process.env.S_KEY}`,{expiresIn:60});
+    res.status(200).json({user:userForJwt,token:token});
 }
