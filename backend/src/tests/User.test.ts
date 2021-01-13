@@ -40,7 +40,7 @@ describe('Post /user', () => {
         .set('Accept','application/json')
         .expect("Content-Type", /json/)
         .expect(201)
-        .expect({message:"Le compte a été créé avec succès !"})
+        .expect({message:"Votre inscription a été pris en compte avec succès ! Un mail de confirmation a été envoyé à l'adresse mail " + userEmail})
         .then(res=>{
             expect(signSpy).toHaveBeenCalled();
         })

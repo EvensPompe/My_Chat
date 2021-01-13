@@ -50,9 +50,11 @@ describe('Store', () => {
         let user: user;
         let existingUser: user;
         let mockRegister: any;
+        let mockError: any;
         let mockConfirmation: any;
         let store: any;
         let postSpy: jest.SpyInstance;
+
         beforeEach(async () => {
             user = {
                 name: "",
@@ -86,18 +88,24 @@ describe('Store', () => {
 
             mockRegister = jest.fn();
             mockConfirmation = jest.fn();
+            mockError = jest.fn();
             store = await createStore({
                 state: {
-                    message: "",
+                    message: null,
+                    error:null,
                     userToken: null
                 },
                 mutations: {
                     mockRegister: mockRegister,
+                    mockError:mockError,
                     register(state, message) {
                         state.message = message;
                     },
-                    mockConfirmation:mockConfirmation,
-                    confirmation(state,payload){
+                    error(state, error) {
+                        state.error = error;
+                    },
+                    mockConfirmation: mockConfirmation,
+                    confirmation(state, payload) {
                         state.userToken = payload.token;
                         state.message = payload.message;
                     }
@@ -110,13 +118,13 @@ describe('Store', () => {
                                     commit('register', res['data'].message);
                                     commit('mockRegister')
                                 } else if (res['data'].hasOwnProperty('error')) {
-                                    commit('register', res['data'].error);
-                                    commit('mockRegister')
+                                    commit('error', res['data'].error);
+                                    commit('mockError')
                                 }
                             }).catch(err => err)
                     },
-                    confirmation({commit},payload){
-                        commit('confirmation',payload);
+                    confirmation({ commit }, payload) {
+                        commit('confirmation', payload);
                         commit('mockConfirmation')
                     }
                 }
@@ -131,33 +139,33 @@ describe('Store', () => {
             await store.dispatch('register', user);
             expect(mockRegister).toHaveBeenCalled();
             expect(postSpy).toHaveBeenCalledWith('http://localhost:3000/user/new', user);
-            expect(store.state.message).toBe("Le compte a été créé avec succès !");
+            expect(store.state.message).toBe("Votre inscription a été pris en compte avec succès ! Un mail de confirmation a été envoyé à l'adresse mail " + user["email"]);
         })
 
         it('should call commit "register" with a user with wrong password and call post axios request and return a error', async () => {
             user["password"] = "dfghhhhhhh";
             await store.dispatch('register', user);
-            expect(mockRegister).toHaveBeenCalled();
+            expect(mockError).toHaveBeenCalled();
             expect(postSpy).toHaveBeenCalledWith('http://localhost:3000/user/new', user);
-            expect(store.state.message).toBe("Le mot de passe est incorrecte !");
+            expect(store.state.error).toBe("Le mot de passe est incorrecte !");
         })
 
         it('should call commit "register" with an already existing user and call post axios request and return a error', async () => {
             await store.dispatch('register', existingUser);
             await store.dispatch('register', existingUser);
-            expect(mockRegister).toHaveBeenCalled();
+            expect(mockError).toHaveBeenCalled();
             expect(postSpy).toHaveBeenCalled();
-            expect(store.state.message).toBe("Le compte existe déjà !");
+            expect(store.state.error).toBe("Le compte existe déjà !");
         })
 
         it('Simulate the confirmation of a user and it should return a userToken', async () => {
             let chosenOne = await axios.get('http://localhost:3000/user/last');
             let conf = await axios.get(`http://localhost:3000/user/confirm?&jwt=${chosenOne["data"].token}`);
-            expect(conf["data"].hasOwnProperty('message')).toBeTruthy();
-            expect(conf["data"].hasOwnProperty('token')).toBeTruthy();
+            expect(conf["data"]['message']).toBeTruthy();
+            expect(conf["data"]['token']).toBeTruthy();
             expect(conf["data"]["message"]).toBe("Votre compte a été confirmé avec succès !");
             expect(conf["data"]["token"]).toBeTruthy();
-            await store.dispatch('confirmation',conf["data"])
+            await store.dispatch('confirmation', conf["data"])
             expect(mockConfirmation).toBeCalled()
             expect(store.state.userToken).toEqual(conf["data"]["token"])
             expect(store.state.message).toEqual(conf["data"]["message"])

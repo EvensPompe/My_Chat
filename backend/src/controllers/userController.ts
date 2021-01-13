@@ -50,7 +50,7 @@ export async function newUser(req: Request, res: Response) {
   
              mail.sendMail(req.body['email'],subject,message)
 
-             res.status(201).json({message:"Le compte a été créé avec succès !"})
+             res.status(201).json({message:"Votre inscription a été pris en compte avec succès ! Un mail de confirmation a été envoyé à l'adresse mail " + req.body['email']})
          }else{
              res.json({error:"Le mot de passe est incorrecte !"})
          } 
