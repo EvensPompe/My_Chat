@@ -6,7 +6,7 @@ export default createStore({
     widthChange: false,
     message: null,
     error: null,
-    userToken: null
+    isLoading: false
   },
   mutations: {
     widthChanging(state, payload) {
@@ -19,23 +19,33 @@ export default createStore({
       state.error = error;
     },
     confirmation(state, payload) {
-      state.userToken = payload.token;
+      localStorage.setItem('token', payload.token);
       state.message = payload.message;
+    },
+    loading(state, payload) {
+      state.isLoading = payload;
     }
   },
   actions: {
     widthChanging({ commit }, payload) {
       commit('widthChanging', payload);
     },
-    async register({ commit }, user) {
-      await axios.post('http://localhost:3000/user/new', user)
-        .then(res => {
-          if (res['data']['message']) {
-            commit('register', res['data'].message);
-          } else if (res['data']['error']) {
-            commit('register', res['data'].error);
-          }
-        }).catch(err => err)
+    register({ commit }, user) {
+      return new Promise((resolve, reject) => {
+        commit('loading', true);
+        axios.post('http://localhost:3000/user/new', user)
+          .then(res => {
+            if (res['data']['message']) {
+              commit('register', res['data'].message);
+              commit('loading', false);
+              resolve(res)
+            } else if (res['data']['error']) {
+              commit('error', res['data'].error);
+              commit('loading', false);
+              resolve(res)
+            }
+          }).catch(err => reject(err))
+      })
     },
     confirmation({ commit }, payload) {
       commit('confirmation', payload);

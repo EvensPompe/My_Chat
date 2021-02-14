@@ -7,14 +7,17 @@ import Register from '../views/Register.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
+    name:"Home",
     component: Home
   },
   {
     path: '/login',
+    name:"Login",
     component: Login
   },
   {
     path: '/register',
+    name:"Register",
     component: Register
   }
 ]
