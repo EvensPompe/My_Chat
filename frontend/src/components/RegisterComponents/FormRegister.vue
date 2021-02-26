@@ -57,7 +57,7 @@
   </div>
 </template>
 <script lang="ts">
-import { ref,Ref } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
 export default {
   name: "FormRegister",
