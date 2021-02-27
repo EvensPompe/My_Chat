@@ -1,54 +1,41 @@
 <template>
   <div id="contact">
-    <h2>Contact</h2>
-    <form @submit.prevent="sendContact">
-      <section>
-        <div>
-          <div>
-            <label for="email">Email</label>
-          </div>
-          <div>
-            <input type="email" v-model="contactData.email" id="email" required />
-          </div>
-        </div>
-      </section>
-      <section>
-        <div>
-          <div>
-            <label for="message">Mot de passe</label>
-          </div>
-          <div>
-            <textarea
-              name="message"
-              v-model="contactData.message"
-              id="message"
-              cols="30"
-              rows="10"
-              required
-            ></textarea>
-          </div>
-        </div>
-        <div>
-          <button type="submit">Envoyer</button>
-        </div>
-      </section>
-    </form>
+    <div>
+      <h1>Contact</h1>
+    </div>
+    <form-contact/>
   </div>
 </template>
 <script lang="ts">
-import { ref } from "vue";
+// import { ref } from "vue";
+import FormContact from "../components/FormComponents/FormContact.vue";
 export default {
   name: "contact",
-  setup() {
-    const contactData = ref({
-      email: "",
-      message: ""
-    });
-
-    const sendContact = () => console.log(contactData.value)
-    return { contactData, sendContact }
-  },
+  components:{
+    FormContact
+  }
 };
 </script>
 <style scoped>
+#contact {
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: white;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+#contact > div:first-child {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#contact > div:last-child {
+  width: 100%;
+  height: 80%;
+}
 </style>

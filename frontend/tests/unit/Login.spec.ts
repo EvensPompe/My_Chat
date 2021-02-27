@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import Login from '@/views/Login.vue';
-import FormLogin from '@/components/RegisterComponents/FormLogin.vue';
+import FormLogin from '@/components/FormComponents/FormLogin.vue';
 
 describe('Login.vue',()=>{
     let wrapper:any;

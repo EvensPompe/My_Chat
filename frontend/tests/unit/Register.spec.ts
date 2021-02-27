@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import Register from '@/views/Register.vue';
-import FormRegister from "@/components/RegisterComponents/FormRegister.vue";
+import FormRegister from "@/components/FormComponents/FormRegister.vue";
 
 describe('Register.vue',()=>{
     let wrapper:any;

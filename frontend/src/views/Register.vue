@@ -1,6 +1,6 @@
 <template>
-    <div id="register" :style="widthChange ?{ width:'70%',transition: 'all 0.6s cubic-bezier(.22,-0.43,.71,1.95)' }:
-  { width:'90%',transition: 'all 0.6s cubic-bezier(.22,-0.43,.71,1.95)' }">
+    <div id="register" :style="widthChange ?{ transition: 'all 0.6s cubic-bezier(.22,-0.43,.71,1.95)' }:
+  { transition: 'all 0.6s cubic-bezier(.22,-0.43,.71,1.95)' }">
         <div>
             <h1>Inscription</h1>
         </div>
@@ -10,7 +10,7 @@
 <script lang="ts">
 import { computed } from 'vue';
 import store from '../store';
-import formRegister from '../components/RegisterComponents/FormRegister.vue';
+import formRegister from '../components/FormComponents/FormRegister.vue';
 export default{
     name:"Register",
     components:{
@@ -26,7 +26,7 @@ export default{
 </script>
 <style lang="css" scoped>
 #register{
-    width: 90%;
+    width: 100%;
     height: 100%;
     background: black;
     color: white;
