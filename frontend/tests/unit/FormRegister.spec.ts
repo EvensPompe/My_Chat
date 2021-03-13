@@ -15,7 +15,7 @@ describe('FormRegister.vue',()=>{
         expect(wrapper.attributes('id')).toBe('formRegister');
     })
 
-    it('should submit a user',async ()=>{
+    it('should submit a user and call "Register" function',async ()=>{
         const mockRegister = jest.fn();
         let user = {
             name:"UserName",

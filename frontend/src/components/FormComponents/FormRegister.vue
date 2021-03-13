@@ -7,7 +7,7 @@
             <label for="userName">Nom utilisateur</label>
           </div>
           <div>
-            <input type="text" v-model="registerData.name" id="userName" />
+            <input type="text" v-model="registerData.name" id="userName" required/>
           </div>
         </div>
         <div>
@@ -15,7 +15,7 @@
             <label for="email">Email</label>
           </div>
           <div>
-            <input type="email" v-model="registerData.email" id="email" />
+            <input type="email" v-model="registerData.email" id="email" required/>
           </div>
         </div>
       </section>
@@ -46,7 +46,7 @@
             <label for="country">Pays</label>
           </div>
           <div>
-            <input type="country" v-model="registerData.country" id="country" />
+            <input type="country" v-model="registerData.country" id="country" required/>
           </div>
         </div>
         <div>
