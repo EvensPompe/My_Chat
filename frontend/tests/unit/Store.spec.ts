@@ -263,7 +263,7 @@ describe('Store', () => {
                                         commit('error', res['data']['error']);
                                         commit('mockLoading');
                                         commit('loading', false);
-                                        reject(res);
+                                        resolve(res);
                                     }
                                 }).catch(err => {
                                     reject(err)
@@ -287,6 +287,24 @@ describe('Store', () => {
             expect(store.state.isLoading).toBeFalsy();
             expect(postSpy).toHaveBeenCalledWith('http://localhost:3000/user/connexion', user);
             expect(store.state.message).toBe("Vous êtes connecté !");
+        })
+
+        it('Should call commit "login" with a user with wrong password and call post axios request and return a error',async () => {
+            await store.dispatch('login', {email:user["email"],password:'user["password"]'});
+            expect(mockError).toHaveBeenCalled();
+            expect(mockLoading).toHaveBeenCalledTimes(2);
+            expect(store.state.isLoading).toBeFalsy();
+            expect(postSpy).toHaveBeenCalledWith('http://localhost:3000/user/connexion', {email:user["email"],password:'user["password"]'});
+            expect(store.state.error).toBe("Le nom d'utilisateur ou le mot de passe est invalide !");
+        })
+
+        it('Should call commit "login" with a non-existent user and call post axios request and return a error',async () => {
+            await store.dispatch('login', {email:'user["email"]@email.fr',password:'user["password"]'});
+            expect(mockError).toHaveBeenCalled();
+            expect(mockLoading).toHaveBeenCalledTimes(2);
+            expect(store.state.isLoading).toBeFalsy();
+            expect(postSpy).toHaveBeenCalledWith('http://localhost:3000/user/connexion', {email:'user["email"]@email.fr',password:'user["password"]'});
+            expect(store.state.error).toBe("Le nom d'utilisateur ou le mot de passe est invalide !");
         })
     })
 })

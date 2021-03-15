@@ -107,10 +107,10 @@ export const connectUser = async (req:Request,res:Response) => {
             let newJwt = jwt.sign(userForJwt,`${process.env.S_KEY}`);
             res.status(200).json({message:"Vous êtes connecté !",token:newJwt})
         }else{
-            res.status(400).json({error:"Le nom d'utilisateur ou le mot de passe est invalide !"})
+            res.json({error:"Le nom d'utilisateur ou le mot de passe est invalide !"})
         }
     }else{
-        res.status(400).json({error:"Le nom d'utilisateur ou le mot de passe est invalide !"})
+        res.json({error:"Le nom d'utilisateur ou le mot de passe est invalide !"})
     }
 }
 

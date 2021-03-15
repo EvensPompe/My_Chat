@@ -106,7 +106,6 @@ describe('Post /user', () => {
          })
          .set('Accept','application/json')
          .expect("Content-Type", /json/)
-         .expect(400)
          .expect({error:"Le nom d'utilisateur ou le mot de passe est invalide !"})
     })
 
@@ -119,7 +118,6 @@ describe('Post /user', () => {
          })
          .set('Accept','application/json')
          .expect("Content-Type", /json/)
-         .expect(400)
          .expect({error:"Le nom d'utilisateur ou le mot de passe est invalide !"})
     })
 })
