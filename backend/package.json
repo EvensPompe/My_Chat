@@ -8,7 +8,8 @@
     "watch": "concurrently -k -n \"Node,TypeScript\" -p \"[{name}]\" -c \"blue,red\" \"npm:watch-node\" \"npm:watch-ts\"",
     "watch-node": " cross-env NODE_ENV=dev nodemon ./dist/server.js",
     "watch-ts": "tsc -w",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test jest",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage"
   },
   "author": "Evens Pompe",
   "license": "ISC",
